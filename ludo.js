@@ -62,8 +62,8 @@ let ludo1=`
 `
 {
 
-    let playing_music = new Audio("playing1.mp3");
-    let input_play = new Audio("input.mp3");
+    let playing_music = new Audio("https://ik.imagekit.io/sbhtechhub/ludo%20effect/playing1.mp3");
+    let input_play = new Audio("https://ik.imagekit.io/sbhtechhub/ludo%20effect/input.mp3");
     let _m = 0;
     let _s = 1;
     function _music() {
@@ -171,8 +171,8 @@ let contorl={
     let winner_no = [];                 // for store the winner number of the player 
     let dice;
     let dice_check = true;                  // for enabling and disabling the dice
-    let tic = new Audio("input.mp3");
-    let dice_voice = new Audio("dice.mp3");
+    let tic = new Audio("https://ik.imagekit.io/sbhtechhub/ludo%20effect/input.mp3");
+    let dice_voice = new Audio("https://ik.imagekit.io/sbhtechhub/ludo%20effect/dice.mp3");
     for (let i = 1; i <= 4; i++) {
         x[i] = [];
         y[i] = [];
