@@ -1,0 +1,29 @@
+<html>
+    <head>
+<script>
+ async function tr(){
+
+console.log("hello");
+await delay(5000);
+console.log("hii");
+
+    }
+
+function delay(ms){
+
+return new Promise(resolve=>setTimeout(resolve,ms));
+
+}
+
+
+
+
+
+</script>
+
+    </head>
+    <body>
+<button onclick="tr()">click</button>
+
+    </body>
+</html>

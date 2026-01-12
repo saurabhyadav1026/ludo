@@ -1,0 +1,819 @@
+<!doctype html>
+
+<html>
+
+<head>
+
+
+
+
+    <script >
+var ludo1=`
+
+<div id="ludo_mat_page">
+<button  id="dice" onclick="on_dice()">6</button>
+
+<div id="ludo_mat">
+ <div class="player p_1"></div>    
+ <div class="player p_2"></div>
+ <div class="player p_3"></div>
+ <div class="player p_4"></div>
+
+
+ <div id="mat_a">
+    <table>
+        <tr><td></td><td></td><td></td></tr>
+        <tr><td></td><td style="background-color: rgb(246, 145, 145)"></td><td style="background-color: rgb(246, 145, 145);">*</td></tr>
+        <tr><td style="background-color: pink;">*</td><td style="background-color: rgb(246, 145, 145)"></td><td></td></tr>
+        <tr><td></td><td style="background-color: rgb(246, 145, 145)"></td><td></td></tr>
+        <tr><td></td><td style="background-color: rgb(246, 145, 145)"> </td><td></td></tr>
+        <tr><td></td><td style="background-color: rgb(246, 145, 145)"></td><td></td></tr>
+    
+    </table>
+    <div class="win_home"></div>
+    <table>
+        <tr><td></td><td style="background-color:  rgb(156, 242, 156)"></td><td></td></tr>
+        <tr><td></td><td style="background-color:  rgb(156, 242, 156)"></td><td></td></tr>
+        <tr><td></td><td style="background-color:  rgb(156, 242, 156)"></td><td></td></tr>
+        <tr><td></td><td style="background-color:  rgb(156, 242, 156)"></td><td style="background-color:pink">*</td></tr>
+        <tr><td style="background-color:  rgb(156, 242, 156)">*</td><td style="background-color:  rgb(156, 242, 156)"></td><td></td></tr>
+        <tr><td></td><td ></td><td></td></tr>
+    
+    </table>
+    
+</div>
+<div id="mat_b">
+<table>
+    <tr><td></td ><td></td><td></td></tr>
+    <tr><td></td ><td style="background-color: rgb(149, 149, 249)"></td><td style="background-color:rgb(149, 149, 249)">*</td></tr>
+  <tr><td style="background-color:pink">*</td ><td style="background-color: rgb(149, 149, 249)" ></td><td></td></tr>
+    <tr><td></td><td style="background-color: rgb(149, 149, 249) "></td><td></td></tr>
+    <tr><td></td><td style="background-color: rgb(149, 149, 249) "></td><td></td></tr>
+    <tr><td></td><td style="background-color: rgb(149, 149, 249)"></td><td></td></tr>
+
+</table>
+<div class="win_home"></div>
+<table>
+    <tr><td></td><td  style="background-color:rgb(250, 250, 166);"></td><td></td></tr>
+    <tr><td></td><td style="background-color:rgb(250, 250, 166);"></td><td></td></tr>
+    <tr><td></td><td style="background-color:rgb(250, 250, 166);"></td><td></td></tr>
+    <tr><td></td><td style="background-color:rgb(250, 250, 166);"></td><td style="background-color:pink;">*</td></tr>
+  <tr><td style="background-color:rgb(250, 250, 166);" >*</td><td style="background-color:rgb(250, 250, 166);"></td><td></td></tr>
+    <tr><td></td><td ></td><td></td></tr>
+
+</table>
+
+</div>
+</div>
+
+</div>
+
+
+`
+
+
+
+
+
+
+
+function g_play() {
+     _music();
+    playing_music.loop = true;
+    var sound_box_ = document.getElementById("s_m_box").style = "display:flex";
+
+    var frame_b_ = document.getElementById("_frame_b_").style = "display:none";
+    var frame_b_a = document.getElementById("_frame_b_a")
+    frame_b_a.style = "display:flex";
+
+frame_b_a.innerHTML=ludo1;
+console.log(ludo1)
+
+
+console.log("new sbh \n\n\n\n");
+
+
+for (var i = 1; i <= 4; i++) {
+    player();
+}
+   
+
+
+}
+
+
+
+
+
+// music& sound control
+{
+
+    var playing_music = new Audio("https://ik.imagekit.io/sbhtechhub/ludo%20effect/playing1.mp3");
+    var input_play = new Audio("https://ik.imagekit.io/sbhtechhub/ludo%20effect/input.mp3");
+    var _m = 0;
+    var _s = 1;
+    function _music() {
+        var a = document.getElementById("music_");
+        if (_m) {
+            playing_music.pause();
+            a.style = "background-color:#b6cbcb ;box-shadow:none;"
+            _m = 0;
+        }
+        else {
+            playing_music.play();
+            a.style = "background-color:aqua ;box-shadow:1px 1px 1px #28f7f7,-1px -1px 2px #28f7f7,1px -1px 2px #28f7f7,-1px -1px 2px #28f7f7;"
+            _m = 1;
+
+        }
+    }
+
+    function _s_sound() {
+        var a = document.getElementById("sound_");
+        if (_s) {
+            a.style = "background-color:#b6cbcb ;box-shadow:none;"
+            _s = 0;
+
+        }
+        else {
+            a.style = "background-color:aqua ;box-shadow:1px 1px 1px #28f7f7,-1px -1px 2px #28f7f7,1px -1px 2px #28f7f7,-1px -1px 2px #28f7f7;"
+            _s = 1;
+
+        }
+    }
+    function _sound() {
+        if (_s) input_play.play();
+
+    }
+}
+
+
+function delay(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+
+//////////
+
+
+
+
+
+// control unit 
+{
+    var player_count = 0;                   // for tack distribution
+    var x = [4];                // for player tack x position       i.e x[2][3] means x position of  2nd no. player's 3rd tack 
+    var y = [4];                // for player tack y position    i.e y[2][3] means y position of  2nd no. player's 3rd tack 
+
+    var tack = [4];
+    var _count = [4];               // for Home _count[playerNumber][tackNumber] will be equal to 57
+    var p = 40;
+    var r = 100;
+
+    var on_p = 1;               // for active player number
+    var winner_count = 0;           //  for tracking winner number who is 1st and second...
+    var winner_no = [];                 // for store the winner number of the player 
+    var dice;
+    var dice_check = true;                  // for enabling and disabling the dice
+    var tic = new Audio("https://ik.imagekit.io/sbhtechhub/ludo%20effect/input.mp3");
+    var dice_voice = new Audio("https://ik.imagekit.io/sbhtechhub/ludo%20effect/dice.mp3");
+    for (var i = 1; i <= 4; i++) {
+        x[i] = [];
+        y[i] = [];
+        tack[i] = [];
+        _count[i] = [];   // start from 0;
+
+    }
+
+}
+
+
+
+function player() {                 // for tack distribution  during start the game
+    player_count++;
+    var cn = -1;
+    var pp = document.getElementsByClassName("player");             // present player for tack distribution
+    for (var i = 0; i < 4; i++) {
+        _count[player_count][i] = 0;                            // for root(path) creation  id= tack_playerNumber_tackNumber
+        pp[player_count - 1].innerHTML += '<div  class="_tack tack_' + player_count + '" id="tack_' + player_count + '_' + i + '"></div';
+
+    }
+    cn++; x[player_count][cn] = "t"; y[player_count][cn] = "t";     // inilizing the each player tack  position 
+
+
+    // taking x po 
+    switch (player_count) {
+        // path setting for player controller
+        case 1:
+            for (var i = 1, j = 6; i <= 5; i++) { cn++; x[player_count][cn] = i * p + r; y[player_count][cn] = j * p + r; }
+            for (var i = 6, j = 5; j >= 0; j--) { cn++; x[player_count][cn] = i * p + r; y[player_count][cn] = j * p + r; }
+            cn++; x[player_count][cn] = 7 * p + r; y[player_count][cn] = 0 * p + r;
+
+            for (var i = 8, j = 0; j <= 5; j++) { cn++; x[player_count][cn] = i * p + r; y[player_count][cn] = j * p + r; }
+            for (var i = 9, j = 6; i <= 14; i++) { cn++; x[player_count][cn] = i * p + r; y[player_count][cn] = j * p + r; }
+            cn++; x[player_count][cn] = 14 * p + r; y[player_count][cn] = 7 * p + r;
+
+
+
+            for (var i = 14, j = 8; i >= 9; i--) { cn++; x[player_count][cn] = i * p + r; y[player_count][cn] = j * p + r; }
+            for (var i = 8, j = 9; j <= 14; j++) { cn++; x[player_count][cn] = i * p + r; y[player_count][cn] = j * p + r; }
+            cn++; x[player_count][cn] = 7 * p + r; y[player_count][cn] = 14 * p + r;
+
+            for (var i = 6, j = 14; j >= 9; j--) { cn++; x[player_count][cn] = i * p + r; y[player_count][cn] = j * p + r; }
+            for (var i = 5, j = 8; i >= 0; i--) { cn++; x[player_count][cn] = i * p + r; y[player_count][cn] = j * p + r; }
+
+            for (var i = 0, j = 7; i <= 6; i++) { cn++; x[player_count][cn] = i * p + r; y[player_count][cn] = j * p + r; }
+
+            break;
+        case 2:
+            for (var i = 8, j = 1; j <= 5; j++) { cn++; x[player_count][cn] = i * p + r; y[player_count][cn] = j * p + r; }
+            for (var i = 9, j = 6; i <= 14; i++) { cn++; x[player_count][cn] = i * p + r; y[player_count][cn] = j * p + r; }
+            cn++; x[player_count][cn] = 14 * p + r; y[player_count][cn] = 7 * p + r;
+
+
+
+            for (var i = 14, j = 8; i >= 9; i--) { cn++; x[player_count][cn] = i * p + r; y[player_count][cn] = j * p + r; }
+            for (var i = 8, j = 9; j <= 14; j++) { cn++; x[player_count][cn] = i * p + r; y[player_count][cn] = j * p + r; }
+            cn++; x[player_count][cn] = 7 * p + r; y[player_count][cn] = 14 * p + r;
+
+            for (var i = 6, j = 14; j >= 9; j--) { cn++; x[player_count][cn] = i * p + r; y[player_count][cn] = j * p + r; }
+            for (var i = 5, j = 8; i >= 0; i--) { cn++; x[player_count][cn] = i * p + r; y[player_count][cn] = j * p + r; }
+            cn++; x[player_count][cn] = 0 * p + r; y[player_count][cn] = 7 * p + r;
+
+
+            for (var i = 0, j = 6; i <= 5; i++) { cn++; x[player_count][cn] = i * p + r; y[player_count][cn] = j * p + r; }
+            for (var i = 6, j = 5; j >= 0; j--) { cn++; x[player_count][cn] = i * p + r; y[player_count][cn] = j * p + r; }
+
+            for (var i = 7, j = 0; j <= 6; j++) { cn++; x[player_count][cn] = i * p + r; y[player_count][cn] = j * p + r; }
+
+            break;
+        case 3:
+
+            for (var i = 13, j = 8; i >= 9; i--) { cn++; x[player_count][cn] = i * p + r; y[player_count][cn] = j * p + r; }
+            for (var i = 8, j = 9; j <= 14; j++) { cn++; x[player_count][cn] = i * p + r; y[player_count][cn] = j * p + r; }
+            cn++; x[player_count][cn] = 7 * p + r; y[player_count][cn] = 14 * p + r;
+
+            for (var i = 6, j = 14; j >= 9; j--) { cn++; x[player_count][cn] = i * p + r; y[player_count][cn] = j * p + r; }
+            for (var i = 5, j = 8; i >= 0; i--) { cn++; x[player_count][cn] = i * p + r; y[player_count][cn] = j * p + r; }
+            cn++; x[player_count][cn] = 0 * p + r; y[player_count][cn] = 7 * p + r;
+
+
+            for (var i = 0, j = 6; i <= 5; i++) { cn++; x[player_count][cn] = i * p + r; y[player_count][cn] = j * p + r; }
+            for (var i = 6, j = 5; j >= 0; j--) { cn++; x[player_count][cn] = i * p + r; y[player_count][cn] = j * p + r; }
+            cn++; x[player_count][cn] = 7 * p + r; y[player_count][cn] = 0 * p + r;
+
+            for (var i = 8, j = 0; j <= 5; j++) { cn++; x[player_count][cn] = i * p + r; y[player_count][cn] = j * p + r; }
+            for (var i = 9, j = 6; i <= 14; i++) { cn++; x[player_count][cn] = i * p + r; y[player_count][cn] = j * p + r; }
+
+            for (var i = 14, j = 7; i >= 8; i--) { cn++; x[player_count][cn] = i * p + r; y[player_count][cn] = j * p + r; }
+
+
+            break;
+        case 4:
+
+
+            for (var i = 6, j = 13; j >= 9; j--) { cn++; x[player_count][cn] = i * p + r; y[player_count][cn] = j * p + r; }
+            for (var i = 5, j = 8; i >= 0; i--) { cn++; x[player_count][cn] = i * p + r; y[player_count][cn] = j * p + r; }
+            cn++; x[player_count][cn] = 0 * p + r; y[player_count][cn] = 7 * p + r;
+
+
+            for (var i = 0, j = 6; i <= 5; i++) { cn++; x[player_count][cn] = i * p + r; y[player_count][cn] = j * p + r; }
+            for (var i = 6, j = 5; j >= 0; j--) { cn++; x[player_count][cn] = i * p + r; y[player_count][cn] = j * p + r; }
+            cn++; x[player_count][cn] = 7 * p + r; y[player_count][cn] = 0 * p + r;
+
+            for (var i = 8, j = 0; j <= 5; j++) { cn++; x[player_count][cn] = i * p + r; y[player_count][cn] = j * p + r; }
+            for (var i = 9, j = 6; i <= 14; i++) { cn++; x[player_count][cn] = i * p + r; y[player_count][cn] = j * p + r; }
+            cn++; x[player_count][cn] = 14 * p + r; y[player_count][cn] = 7 * p + r;
+
+
+
+
+            for (var i = 14, j = 8; i >= 9; i--) { cn++; x[player_count][cn] = i * p + r; y[player_count][cn] = j * p + r; }
+            for (var i = 8, j = 9; j <= 14; j++) { cn++; x[player_count][cn] = i * p + r; y[player_count][cn] = j * p + r; }
+
+            for (var i = 7, j = 14; j >= 8; j--) { cn++; x[player_count][cn] = i * p + r; y[player_count][cn] = j * p + r; }
+
+            break;
+
+    }
+
+
+
+}
+
+
+
+
+async function run(pl, tt) {
+
+    var a = document.getElementById("tack_" + pl + "_" + tt);               // a= tack  to be run 
+    var dice_2 = dice;
+    dice = -1;
+
+    if (dice_2 == 6 && _count[pl][tt] == 0) {              // if tack have to open the tack
+
+        _count[pl][tt]++; tic.play();
+        a.style = "position:fixed;top:" + y[pl][_count[pl][tt]] + "px;left:" + x[pl][_count[pl][tt]] + "px;";
+        check_double(pl, tt,);
+        player_changer(1, 1);           // calling change player where 1st argument says dont change player just give next chance 
+
+    }
+
+
+
+    else if (dice_2 != -1 && _count[pl][tt] > 0) {
+        rmoveDouble();
+        await delay(100);
+        for (var i = 1; i <= dice_2; i++) {
+            _count[pl][tt]++; tic.play();
+            a.style = "position:fixed;top:" + y[pl][_count[pl][tt]] + "px;left:" + x[pl][_count[pl][tt]] + "px;";
+            await delay(300);
+
+        }
+
+
+
+        if (check_double(pl, tt,) || dice_2 == 6 || _count[pl][tt] == 57) {         // for next chance condition
+            if (_count[pl][tt] == 57) winner_check(pl);
+
+            player_changer(1, 1);
+        }
+        else player_changer(0, 1);
+    }
+
+
+
+}
+
+
+async function run_back(pl, tt) {
+    var a = document.getElementById("tack_" + pl + "_" + tt);
+    for (; _count[pl][tt] >= 1; _count[pl][tt]--) {
+        tic.play();
+        a.style = "position:fixed;top:" + y[pl][_count[pl][tt]] + "px;left:" + x[pl][_count[pl][tt]] + "px;";
+
+        await delay(100);
+    }
+    _count[pl][tt]--;
+    a.style = "";
+
+}
+
+
+
+function rmoveDouble() {
+
+    for (var i = 1; i <= 4; i++) {
+
+        for (var j = 0; j <= 3; j++) {
+            if (_count[i][j] > 0 && _count[i][j] < 57) {
+                document.getElementById("tack_" + i + "_" + j).style = "position:fixed;top:" + y[i][_count[i][j]] + "px;left:" + x[i][_count[i][j]] + "px;";
+                console.log(i + " = " + _count[i][j]);
+            }
+
+        }
+
+    }
+
+}
+
+
+function check_double(pl, tt,) {   // pl= player no. 1-4 , and tt= tack no. 0-3
+
+    var tit = 0;
+    for (var i = 1; i <= 4; i++) {
+
+        for (var j = 0; j <= 3; j++) {
+
+
+
+            if ((i != pl || (i == pl && j != tt)) && _count[i][j] > 0 && (x[pl][_count[pl][tt]] == x[i][_count[i][j]] && y[pl][_count[pl][tt]] == y[i][_count[i][j]])) {
+
+                if ((i == pl && j != tt) || ((_count[pl][tt] == 1 || _count[pl][tt] == 9 || _count[pl][tt] == 14 || _count[pl][tt] == 22 || _count[pl][tt] == 27 || _count[pl][tt] == 35 || _count[pl][tt] == 40 || _count[pl][tt] == 48) && !(pl == i && tt == j))) {
+
+                    tit += 5;
+                    var a = document.getElementById("tack_" + pl + "_" + tt).style = "height:25px;width:25px; position:fixed;top:" + y[pl][_count[pl][tt]] + "px;left:" + (x[pl][_count[pl][tt]] - 5) + "px;";
+                    var b = document.getElementById("tack_" + i + "_" + j).style = "height:25px;width:25px; position:fixed;top:" + y[i][_count[i][j]] + "px;left:" + (x[i][_count[i][j]] + tit) + "px;";
+
+
+                }
+                else {
+                    if (i != pl) { run_back(i, j); return 1; }
+
+                }
+
+            }
+        }
+
+
+    }
+
+    return 0;
+}
+
+
+
+
+
+async function on_dice() {
+    if (dice_check) {
+        var d = document.getElementById("dice");
+        dice_voice.play();                  // for dice sound play
+        var k = d.style.cssText;                //  k for pre css
+        d.style = k + "animation-name: dice_ani;";
+        await delay(500);
+        d.style = k;
+        dice_check = false;                     // for dice disable
+
+      
+
+        do {                                                             // for random dice point
+            dice = parseInt(9999999999 * Math.random());
+            dice = dice % 7;
+        } while (!dice);
+
+
+        d.innerHTML = dice;                                             // to print number on dice
+
+        var t = document.getElementsByClassName("tack_" + on_p);        // t= tack array of active player, on_p  = active player
+        var t_c = 0;                                // locally just for any tack is open or not
+        var tt;                                     // it is used for run tack automatically if there is only one tack open
+        for (var i = 0; i < 4; i++) {                           //  To make tack active(clickable) of active(on_p) player tack
+            if ((dice + _count[on_p][i]) <= 57 && _count[on_p][i] > 0 || dice == 6) { t[i].setAttribute("onclick", "run(" + on_p + "," + i + ")"); t_c++; tt = i; }
+        }
+
+        if (t_c == 1) run(on_p, tt);            //  condition for running automatically
+
+
+        else if (!t_c) player_changer(0, 0);             // it will true only when there is no any tack open,  it change the player
+
+    }
+
+
+    return;
+}
+
+// n= it is  for  next chance       m = will false only if there is no active tack of the player
+async function player_changer(n, m) {
+
+    var d = document.getElementById("dice");            // dice here it change it coloraccording to the acitve player
+
+    var t = document.getElementsByClassName("tack_" + on_p);                // for active player tack
+    if (m) {
+        for (var i = 0; i < 4; i++) {               //loop to make active tack disable(unclickable)
+
+            if (_count[on_p][i] <= 57 && n || _count[on_p][i] > 0) t[i].removeAttribute("onclick", "run(" + on_p + "," + i + ")");
+
+        }
+    }
+
+    if (!n) {     // it will false only when the  player have next chance
+        await delay(500);             /// to change the player
+        if (on_p == 1) { on_p = 2; d.style = "background-color:red;top:40px;left:660px;"; }
+        else if (on_p == 2) { on_p = 3; d.style = "background-color:blue;top:710px;left:660px;"; }
+        else if (on_p == 3) { on_p = 4; d.style = "background-color:green;top:710px;left:90px;"; }
+        else if (on_p == 4) { on_p = 1; d.style = ""; }
+    }
+
+
+    dice_check = true;                  // to make dice enable
+
+
+
+
+}
+
+
+
+
+// for winner test
+function winner_check(pl) {
+
+    var a = 1;
+    for (var i = 1; i <= 4; i++) {
+        if (_count[pl][i] != 57) { a--; break; }
+    }
+    if (a) {
+        winner_count++;
+        winner_no[pl] = winner_count;
+    }
+
+
+
+}
+
+
+
+
+
+
+    </script>
+<style>
+
+
+.frame {
+         
+         position: fixed;
+         width: 100%;
+         height: 100%;
+         top: 0;
+         left: 0;
+         background-color: #eb7575;
+         display: flex;
+         flex-wrap: wrap;
+     }
+     
+     
+     #frame_2 {
+         visibility: hidden;
+     }
+     
+     
+     
+     
+     .frame_a,
+     .frame_c {
+         box-sizing: border-box;
+         height: 25%;
+         width: 100%;
+         display: flex;
+         flex-wrap: wrap;
+         align-content: center;
+         justify-content: center;
+     }
+     
+     
+     
+     
+     h2,
+     h6 {
+         width: 100%;
+         text-align: center;
+         padding: 0%;
+         margin: 0;
+     }
+     
+     .frame_b {
+         box-sizing: border-box;
+         height: 50%;
+         width: 100%;
+         background-color: #b6a4a4;
+         display: flex;
+         align-items: center;
+         justify-content: center;
+     }
+     
+     
+     #_frame_b_a {
+         display: none;
+         justify-content: space-evenly;
+         align-items: center;
+     }
+     
+     
+     .frame_b_a {
+         box-sizing: border-box;
+         height: 90%;
+         width: 400px;
+         flex-direction: column;
+         background-color: #eb7575;
+         padding-bottom: 0%;
+         margin-bottom: 0%;
+         box-shadow: 5px 5px 5px white, -5px -5px 5px white;
+     }
+     
+     
+     #s_m_box {
+         position: fixed;
+         top: 15%;
+         right: 5%;
+         height: 50px;
+         width: 110px;
+         display: none;
+         justify-content: space-evenly;
+         z-index: 2;
+     }
+     
+     #music_,
+     #sound_ {
+         height: 50px;
+         width: 50px;
+         display: flex;
+         justify-content: center;
+         align-items: center;
+         border-radius: 50%;
+         background-color: aqua;
+     }
+     
+     @media(max-width: 500px) {
+     
+         .frame_a,
+         .frame_c {
+             height: 15%;
+         }
+     
+         .frame_b {
+             height: 70%;
+         }
+     
+         #s_m_box {
+             position: fixed;
+             top: 8%;
+             right: 5%;
+         }
+     
+         #music_,
+         #sound_ {
+             height: 30px;
+             width: 30px;
+         }
+     }
+     
+     
+     
+     #ludo_mat_page{
+     position: fixed;
+     width: 100%;
+     height: 100%;
+     left: 0;
+     top: 0;
+         background-color:white;
+     }
+     
+     
+     
+     
+     #ludo_mat{
+         height: 600px;
+         width: 600px;
+         top:90px;
+         left: 90px;
+         position: fixed;
+         
+ 
+    
+         }
+         
+         #mat_a,#mat_b{
+             top: 100px;
+         left: 340px;
+             position: fixed;
+         width:120px;
+         height: 600px;
+        
+         box-sizing: border-box;
+         }
+         #mat_b{
+             rotate: 90deg;
+          
+         }
+         
+         
+         
+         
+         table{
+             height: 240px;
+             width: 120px;
+         box-sizing: border-box;
+         
+         }
+         tr{padding: 0;
+             width: 100%;
+             height: 16.6%;
+         }
+         td{
+             margin: 0;
+             background-color:purple;
+             width: 33.33%;
+             border: 1px solid black;
+             box-sizing: border-box;
+         }
+         .win_home{
+             width: 100%;
+             height: 120px;
+             background-color:aqua;
+         }
+         
+         .player{z-index: 3;
+             position: fixed;
+         height: 240px;
+         width: 240px;
+         top: 100px;
+         left: 100px;
+         box-sizing: border-box;
+         display: flex;
+         
+         align-items: center;
+         justify-content: space-evenly;
+         background-color: rgb(250, 250, 166);
+         }
+         .p_2,.p_3{
+             left: 460px;
+             background-color: rgb(246, 145, 145);
+         }
+         .p_3,.p_4{
+         top: 460px;
+         background-color: rgb(149, 149, 249);
+         }
+         .p_4{
+         background-color: rgb(156, 242, 156);
+         }
+         
+             ._tack{
+         
+                 height: 35px;
+                 width: 35px;
+                 border-radius: 50%;
+                  }
+         .tack_1{
+             box-shadow: 2px 2px 2px  rgb(180, 158, 61),-2px -2px 2px  rgb(172, 149, 48),2.2px 2.2px 2.2px  rgb(153, 135, 51),-2.2px -2.2px 2.2px  rgb(155, 142, 85),2.3px 2.3px 2.3px yellow,-2.3px -2.3px 2.3px yellow,2.3px 2.3px 2.3px yellow,-2.3px -2.3px 2.3px yellow,2.5px 2.5px 2.5px yellow,-2.5px -2.5px 2.5px yellow;
+            
+             background-color: rgb(255, 208, 0);
+         } 
+         .tack_2{
+             box-shadow: 2px 2px 2px rgb(157, 88, 88),-2px -2px 2px maroon,2.2px 2.2px 2.2px rgb(148, 89, 89),-2.2px -2.2px 2.2px rgb(129, 67, 67),2.3px 2.3px 2.3px rgb(254, 15, 15),-2.3px -2.3px 2.3px rgb(254, 6, 6),2.5px 2.5px 2.5px rgb(254, 15, 15),-2.5px -2.5px 2.5px rgb(254, 6, 6);
+            
+             background-color: maroon;
+         }
+         .tack_3{ 
+             box-shadow: 2px 2px 2px rgb(65, 65, 183),-2px -2px 2px rgb(99, 99, 161),2.2px 2.2px 2.2px rgb(84, 84, 153),-2.2px -2.2px 2.2px rgb(92, 92, 157),2.3px 2.3px 2.3px blue,-2.3px -2.3px 2.3px blue,2.5px 2.5px 2.5px blue,-2.5px -2.5px 2.5px blue;
+            
+             background-color: rgb(7, 7, 198);
+         }
+         .tack_4{ box-shadow: 2px 2px 2px  rgb(89, 159, 73),-2px -2px 2px  rgb(74, 126, 63),2.2px 2.2px 2.2px  rgb(93, 141, 82),-2.2px -2.2px 2.2px  rgb(86, 124, 78),2.3px 2.3px 2.3px greenyellow,-2.3px -2.3px 2.3px greenyellow,2.5px 2.5px 2.5px greenyellow,-2.5px -2.5px 2.5px greenyellow;
+            
+             background-color: rgb(34, 160, 5);
+         }
+         
+         #dice{
+             top:40px;
+             left:90px;
+             position: fixed;
+             height: 50px;
+             width: 50px;
+             z-index:1;
+          
+             font-size: larger;
+             background-color: yellow;
+             animation-iteration-count: 4;
+             animation-duration: .25s;
+             border-radius: 10%;
+         }
+         
+     @keyframes dice_ani {
+         for{rotate: 0deg; transform: rotateX(0deg);}
+         25%{rotate: 180deg;transform: rotateX(180deg);}
+         50%{rotate: 360deg;transform: rotateX(360deg);}
+         50.1%{rotate: 0deg;transform: rotateX(0deg);}
+         75%{rotate: 180deg;transform: rotatey(180deg);}
+         to{rotate: 360deg;transform: rotatey(360deg);}
+     }
+     
+     
+
+</style>
+
+
+<link rel="icon" type="image/png" href="https://play-lh.googleusercontent.com/dTca8Nu4e73Ka6ZPwfYgFfa415pRyOAiJhLbSO_gxRQAXUe2IxxrkB5596qxbRPv2l6u" />
+
+
+    <title>SBH PRESENTS LUDO</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body id="body">
+    <div id="s_m_box">
+        <div onclick="_s_sound()" id="sound_">&#127925</div>
+        <div onclick="_music()" id="music_">&#127926</div>
+    </div>
+    <div class="frame" id="frame_1">
+        <div class="frame_a">
+            <h2>LUDO</h2>
+            <h6> SBH PRESENTS</h6>
+        </div>
+        <div class="frame_b">
+
+            <div class="frame_b_" id="_frame_b_">
+           <img href="https://play-lh.googleusercontent.com/dTca8Nu4e73Ka6ZPwfYgFfa415pRyOAiJhLbSO_gxRQAXUe2IxxrkB5596qxbRPv2l6u"/>
+                <button onclick="g_play()">PLAY</button>
+            </div>
+
+            <div class="frame_b_a" id="_frame_b_a">
+               
+            </div>
+          
+
+
+
+        </div>
+        <div class="frame_c"></div>
+    </div>
+
+ 
+        
+
+
+</body>
+
+</html>
+
+
